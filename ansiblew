@@ -1,0 +1,172 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""This is an ansible wrapper to help you to exec the different playbooks with your
+inventories.
+
+By default don't exec nothing only show the commands. With --nodryrun you can exec
+the real commands.
+
+With 'main' only operates over your main host.
+
+Usage:
+   ansiblew --alainstall=<dir_of_ala_install_repo> [options] [ main | collectory | ala_hub | biocache_service | ala_bie | bie_index | images | lists | regions | logger | solr | cas | biocache_backend | biocache_cli | spatial |  all ]
+   ansiblew -h | --help
+   ansiblew -v | --version
+
+Options:
+  --nodryrun             Exec the ansible-playbook commands
+  -p --properties        Only update properties
+  -l --limit=<hosts>     Limit to some inventories hosts
+  -s --skip=<tags>       Skip tags
+  -h --help              Show help options.
+  -d --debug             Show debug info.
+  -v --version           Show ansiblew version.
+----
+ansiblew 0.1.0
+Copyright (C) 2019 living-atlases.gbif.org
+Apache 2.0 License
+"""
+from docopt import docopt
+import os
+
+if __name__ == '__main__':
+    args = docopt(__doc__)
+
+    nodryrun = args['--nodryrun']
+    debug = args['--debug']
+    properties = args['--properties']
+    skip = args['--skip']
+    limit = args['--limit']
+    main = args['main']
+    doall = args['all']
+    alainstall = args['--alainstall']
+    cmdPrefix = "echo "
+    extras = ""
+    pkg = "vtatlasoflife"
+
+    # Add here some additional param for ansible like your ssh key, like:
+    # additionalParams = "--private-key ~/.ssh/MyKey.pem"
+    additionalParams = ""
+
+    if debug:
+        print(args)
+
+    if properties:
+        extras = "%s  --tags properties" % (extras)
+    if skip:
+        extras = "%s --skip-tags %s" % (extras, skip)
+    if debug:
+        extras = "%s -vvvv" % (extras)
+    if nodryrun:
+        cmdPrefix = ""
+
+    if debug:
+        print("Extras: %s" % (extras))
+
+    baseInventories = "-i %s-inventory.yml -i %s-local-extras.yml" % (pkg, pkg)
+
+    if main or doall:
+        mainCmd = "%s ansible-playbook %s -u ubuntu %s -i %s-local-passwords.yml %s/ansible/ala-demo.yml %s --limit %s" % (cmdPrefix, additionalParams, baseInventories, pkg, alainstall, extras, limit if limit else "vtatlasoflife.org")
+        if nodryrun:
+            os.system("echo %s" % mainCmd)
+        os.system(mainCmd)
+
+    if args['collectory'] or doall:
+        extraInventories = ""
+        otherCmd = "%s ansible-playbook %s -u ubuntu %s %s -i %s-local-passwords.yml %s/ansible/collectory-standalone.yml %s --limit %s  --extra-vars 'ala_install_repo=%s'" % (cmdPrefix, additionalParams, baseInventories, extraInventories, pkg, alainstall, extras, limit if limit else "collectory.vtatlasoflife.org", alainstall)
+        if nodryrun:
+            os.system("echo %s" % otherCmd)
+        os.system(otherCmd)
+
+    if args['ala_hub'] or doall:
+        extraInventories = ""
+        otherCmd = "%s ansible-playbook %s -u ubuntu %s %s -i %s-local-passwords.yml %s/ansible/biocache-hub-standalone.yml %s --limit %s  --extra-vars 'ala_install_repo=%s'" % (cmdPrefix, additionalParams, baseInventories, extraInventories, pkg, alainstall, extras, limit if limit else "biocache.vtatlasoflife.org", alainstall)
+        if nodryrun:
+            os.system("echo %s" % otherCmd)
+        os.system(otherCmd)
+
+    if args['biocache_service'] or doall:
+        extraInventories = ""
+        otherCmd = "%s ansible-playbook %s -u ubuntu %s %s -i %s-local-passwords.yml %s/ansible/biocache-service-clusterdb.yml %s --limit %s  --extra-vars 'ala_install_repo=%s'" % (cmdPrefix, additionalParams, baseInventories, extraInventories, pkg, alainstall, extras, limit if limit else "biocache-ws.vtatlasoflife.org", alainstall)
+        if nodryrun:
+            os.system("echo %s" % otherCmd)
+        os.system(otherCmd)
+
+    if args['ala_bie'] or doall:
+        extraInventories = ""
+        otherCmd = "%s ansible-playbook %s -u ubuntu %s %s -i %s-local-passwords.yml %s/ansible/bie-hub.yml %s --limit %s  --extra-vars 'ala_install_repo=%s'" % (cmdPrefix, additionalParams, baseInventories, extraInventories, pkg, alainstall, extras, limit if limit else "bie.vtatlasoflife.org", alainstall)
+        if nodryrun:
+            os.system("echo %s" % otherCmd)
+        os.system(otherCmd)
+
+    if args['bie_index'] or doall:
+        extraInventories = ""
+        otherCmd = "%s ansible-playbook %s -u ubuntu %s %s -i %s-local-passwords.yml %s/ansible/bie-index.yml %s --limit %s  --extra-vars 'ala_install_repo=%s'" % (cmdPrefix, additionalParams, baseInventories, extraInventories, pkg, alainstall, extras, limit if limit else "bie-ws.vtatlasoflife.org", alainstall)
+        if nodryrun:
+            os.system("echo %s" % otherCmd)
+        os.system(otherCmd)
+
+    if args['images'] or doall:
+        extraInventories = ""
+        otherCmd = "%s ansible-playbook %s -u ubuntu %s %s -i %s-local-passwords.yml %s/ansible/image-service.yml %s --limit %s  --extra-vars 'ala_install_repo=%s'" % (cmdPrefix, additionalParams, baseInventories, extraInventories, pkg, alainstall, extras, limit if limit else "images.vtatlasoflife.org", alainstall)
+        if nodryrun:
+            os.system("echo %s" % otherCmd)
+        os.system(otherCmd)
+
+    if args['lists'] or doall:
+        extraInventories = ""
+        otherCmd = "%s ansible-playbook %s -u ubuntu %s %s -i %s-local-passwords.yml %s/ansible/species-list-standalone.yml %s --limit %s  --extra-vars 'ala_install_repo=%s'" % (cmdPrefix, additionalParams, baseInventories, extraInventories, pkg, alainstall, extras, limit if limit else "lists.vtatlasoflife.org", alainstall)
+        if nodryrun:
+            os.system("echo %s" % otherCmd)
+        os.system(otherCmd)
+
+    if args['regions'] or doall:
+        extraInventories = ""
+        otherCmd = "%s ansible-playbook %s -u ubuntu %s %s -i %s-local-passwords.yml %s/ansible/regions-standalone.yml %s --limit %s  --extra-vars 'ala_install_repo=%s'" % (cmdPrefix, additionalParams, baseInventories, extraInventories, pkg, alainstall, extras, limit if limit else "regions.vtatlasoflife.org", alainstall)
+        if nodryrun:
+            os.system("echo %s" % otherCmd)
+        os.system(otherCmd)
+
+    if args['logger'] or doall:
+        extraInventories = ""
+        otherCmd = "%s ansible-playbook %s -u ubuntu %s %s -i %s-local-passwords.yml %s/ansible/logger-standalone.yml %s --limit %s  --extra-vars 'ala_install_repo=%s'" % (cmdPrefix, additionalParams, baseInventories, extraInventories, pkg, alainstall, extras, limit if limit else "logger.vtatlasoflife.org", alainstall)
+        if nodryrun:
+            os.system("echo %s" % otherCmd)
+        os.system(otherCmd)
+
+    if args['solr'] or doall:
+        extraInventories = ""
+        otherCmd = "%s ansible-playbook %s -u ubuntu %s %s -i %s-local-passwords.yml %s/ansible/solr7-standalone.yml %s --limit %s  --extra-vars 'ala_install_repo=%s'" % (cmdPrefix, additionalParams, baseInventories, extraInventories, pkg, alainstall, extras, limit if limit else "index.vtatlasoflife.org", alainstall)
+        if nodryrun:
+            os.system("echo %s" % otherCmd)
+        os.system(otherCmd)
+
+    if args['cas'] or doall:
+        extraInventories = "-i vtatlasoflife-cas-inventory.yml -i vtatlasoflife-cas-local-extras.yml"
+        otherCmd = "%s ansible-playbook %s -u ubuntu %s %s -i %s-local-passwords.yml %s/ansible/cas5-standalone.yml %s --limit %s  --extra-vars 'ala_install_repo=%s'" % (cmdPrefix, additionalParams, baseInventories, extraInventories, pkg, alainstall, extras, limit if limit else "auth.vtatlasoflife.org", alainstall)
+        if nodryrun:
+            os.system("echo %s" % otherCmd)
+        os.system(otherCmd)
+
+    if args['biocache_backend'] or doall:
+        extraInventories = ""
+        otherCmd = "%s ansible-playbook %s -u ubuntu %s %s -i %s-local-passwords.yml %s/ansible/biocache-backend.yml %s --limit %s  --extra-vars 'ala_install_repo=%s'" % (cmdPrefix, additionalParams, baseInventories, extraInventories, pkg, alainstall, extras, limit if limit else "vtatlasoflife.org", alainstall)
+        if nodryrun:
+            os.system("echo %s" % otherCmd)
+        os.system(otherCmd)
+
+    if args['biocache_cli'] or doall:
+        extraInventories = ""
+        otherCmd = "%s ansible-playbook %s -u ubuntu %s %s -i %s-local-passwords.yml %s/ansible/biocache-cli.yml %s --limit %s  --extra-vars 'ala_install_repo=%s'" % (cmdPrefix, additionalParams, baseInventories, extraInventories, pkg, alainstall, extras, limit if limit else "vtatlasoflife.org", alainstall)
+        if nodryrun:
+            os.system("echo %s" % otherCmd)
+        os.system(otherCmd)
+
+    if args['spatial'] or doall:
+        extraInventories = "-i vtatlasoflife-spatial-inventory.yml -i vtatlasoflife-spatial-local-extras.yml"
+        otherCmd = "%s ansible-playbook %s -u ubuntu %s %s -i %s-local-passwords.yml %s/ansible/spatial.yml %s --limit %s  --extra-vars 'ala_install_repo=%s'" % (cmdPrefix, additionalParams, baseInventories, extraInventories, pkg, alainstall, extras, limit if limit else "spatial.vtatlasoflife.org", alainstall)
+        if nodryrun:
+            os.system("echo %s" % otherCmd)
+        os.system(otherCmd)
+
+    

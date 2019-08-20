@@ -1,0 +1,387 @@
+########################################################################################################################
+#
+# An inventory to use to set up a machine on EC2 or other cloud provider.
+# To use this add the following into your /etc/hosts file:
+#
+# 12.12.12.12	vtatlasoflife	vtatlasoflife.org
+#
+# You'll need to replace "12.12.12.12" with the IP address of your newly created
+# Ubuntu 16 instance. For this demo to run well, we recommend a machine of 16GB RAM, 4 CPUs.
+#
+########################################################################################################################
+
+[all:vars]
+ansible_user=ubuntu
+ansible_become=yes
+
+[ala-demo]
+vtatlasoflife.org
+
+
+[collectory]
+collectory.vtatlasoflife.org
+
+[biocache-hub]
+biocache.vtatlasoflife.org
+
+[biocache-service-clusterdb]
+biocache-ws.vtatlasoflife.org
+
+[bie-hub]
+bie.vtatlasoflife.org
+
+[bie-index]
+bie-ws.vtatlasoflife.org
+
+[image-service]
+images.vtatlasoflife.org
+
+[species-list]
+lists.vtatlasoflife.org
+
+[regions]
+regions.vtatlasoflife.org
+
+[logger-service]
+logger.vtatlasoflife.org
+
+[solr7-server]
+index.vtatlasoflife.org
+
+[cas-servers]
+auth.vtatlasoflife.org
+
+[biocache]
+vtatlasoflife.org
+
+[biocache-cli]
+vtatlasoflife.org
+
+[spatial]
+spatial.vtatlasoflife.org
+
+
+[all:vars]
+is_vagrant=false
+# Mounted storage is usually /mnt on EC2. Create a symlink to /mnt -> /data
+data_dir=/data
+
+demo_hostname = vtatlasoflife.org
+skin_home_url = http://vtatlasoflife.org
+
+############# GBIF Name matching index
+
+custom_namematching_url = https://s3.amazonaws.com/ala-nameindexes/latest/namematching-gbif-lucene5.tgz
+nameindex_to_use = custom
+
+####################### Biocache ##############################################
+
+biocache_db_host = vtatlasoflife.org
+biocache_db_type = cassandra3
+biocache_db_port = 9042
+cassandra_listen_host = vtatlasoflife.org
+biocache_service_hostname = biocache-ws.vtatlasoflife.org
+biocache_service_url = http://biocache-ws.vtatlasoflife.org
+biocache_service_base_url = http://biocache-ws.vtatlasoflife.org
+biocache_service_context_path = 
+logging_enabled = true
+default_country =
+layers_service_url=http://spatial.vtatlasoflife.org/ws
+spatial_layers_url=http://spatial.vtatlasoflife.org/ws/fields
+layers_service_sampling = false
+enable_lists = true
+lists_service_url = http://lists.vtatlasoflife.org
+registry_api_key = dummy-registry-api-key
+commonname_lang = en
+media_store_local = false
+media_store_url=http://images.vtatlasoflife.org
+download_url=http://biocache.vtatlasoflife.org/biocache-download
+download_dir=/data/biocache-download
+geoserver_url=http://spatial.vtatlasoflife.org/geoserver
+
+####################### Hub ###################################################
+
+biocache_hub_hostname = biocache.vtatlasoflife.org
+biocache_hub_url = http://biocache.vtatlasoflife.org
+biocache_hub_base_url = http://biocache.vtatlasoflife.org
+biocache_hub_context_path = 
+userdetails_url = http://auth.vtatlasoflife.org/userdetails/userDetails
+userdetails_base_url = http://auth.vtatlasoflife.org/userdetails
+
+google_apikey = AIzaSyAJDtEeoy7Sc9pij2TAoVnmTwA34Q-2VHk
+
+# this is disabled to avoid startup problems
+caches_collections_enabled = false
+
+org_url = http://vtatlasoflife.org
+
+skin_orgNameLong = Vermont Atlas of Life
+orgNameLong = Vermont Atlas of Life
+orgNameShort = VT Atlas of Life
+
+explore_your_area_lat = 40.4168
+explore_your_area_lng = -3.7038
+explore_your_area_location = Madrid
+
+map_default_latitude = 40.4168
+map_default_longitude = -3.7038
+map_default_zoom = 5
+
+skin_layout = generic
+# If you don't want fluid layout, leave this option empty
+skin_fluid_layout = true
+
+use_ala_image_service = true
+image_service_url = http://images.vtatlasoflife.org
+image_service_viewer_url = http://images.vtatlasoflife.org/image/viewer?imageId=
+image_service_metadata_url = http://images.vtatlasoflife.org/image/details?imageId=
+alwaysshow_imagetab = true
+
+use_download_plugin=true
+downloads_indexed_download_url=http://biocache-ws.vtatlasoflife.org/occurrences/offline/download
+downloads_checklist_download_url=http://biocache-ws.vtatlasoflife.org/occurrences/facets/download
+downloads_indexed_fields_url=http://biocache-ws.vtatlasoflife.org/index/fields
+downloads_fieldguide_download_url =
+downloads_static_downloads_url =
+downloads_terms_of_use =
+download_solr_only = true
+
+####################### Collectory ############################################
+
+collectory_hostname = collectory.vtatlasoflife.org
+collectory_url = http://collectory.vtatlasoflife.org
+collectory_service_url = http://collectory.vtatlasoflife.org/ws
+collectory_base_url = http://collectory.vtatlasoflife.org
+collectory_context_path = 
+collectory_db_host_address = localhost
+collectory_db_host = localhost
+collectory_db_user = collectory
+collectory_db_password = password
+bypass_cas = false
+
+# API key that support registry updates
+api_key = dummy-registry-api-key
+
+# Google maps
+google_apikey = AIzaSyAJDtEeoy7Sc9pij2TAoVnmTwA34Q-2VHk
+
+orgNameLong = Vermont Atlas of Life
+orgNameShort = VT Atlas of Life
+
+# CAS
+
+# Security bypass
+security_bypass = false
+
+# External API access
+api_key = to_be_added
+
+# Skinning
+skin = ala
+
+# Map config
+collections_map_lat = 16.942
+collections_map_lon = 1.261
+collections_map_zoom = 3
+
+# Project name
+orgNameShort = VT Atlas of Life
+orgNameLong = Vermont Atlas of Life
+region = VT Atlas of Life
+
+# EML config
+eml_delivery_point = Smith Street
+eml_city = Leipzig
+eml_admin_area = Spain
+eml_postal_code = S21 2SS
+eml_country = Spain
+
+# Disable UI components
+disable_map = true
+disable_alerts = true
+disable_logger = false
+
+# Whether to check API keys for incoming write requests
+api_key_check_enabled = false
+
+# GBIF base URL for webservices
+gbifApiUrl = http://api.gbif.org/v1
+
+# Logger URL
+logger_webservice_url = http://logger.vtatlasoflife.org/service
+
+# Species list tool
+
+species_list_tool_url = http://lists.vtatlasoflife.org
+
+
+####################### SOLR #######################
+
+solr_hostname = index.vtatlasoflife.org
+solr_url = http://index.vtatlasoflife.org:8983/solr/biocache
+solr_base_url = http://index.vtatlasoflife.org:8983
+solr_context_path = 
+solr_host = index.vtatlasoflife.org
+solr_port = 8983
+
+solr_heap = 8g
+
+sandbox_hostname = vtatlasoflife.org
+sandbox_url = http://vtatlasoflife.org/sandbox
+sandbox_base_url = http://vtatlasoflife.org
+sandbox_context_path = /sandbox
+
+################# Logger Service ############
+
+logger_hostname = logger.vtatlasoflife.org
+logger_url = http://logger.vtatlasoflife.org
+logger_base_url = http://logger.vtatlasoflife.org
+logger_context_path = 
+logger_db_name = logger
+logger_db_username = logger_user
+logger_db_password = logger_user
+logger_db_hostname = localhost
+
+############### Auth Server #########
+
+auth_base_url = http://auth.vtatlasoflife.org
+auth_cas_url = http://auth.vtatlasoflife.org/cas
+
+####### When near the GBIF building (e.g. in Europe) the GBIF nexus will likely be fastest #########
+
+use_gbif_nexus = false
+
+####### Disable SDS checks for the demo #######
+
+sds_enabled = false
+
+
+webserver_nginx=true
+ssl=false
+
+nginx_vhost_fragments_to_clear=["vtatlasoflife.org"]
+
+############### Biocache CLI options ###############
+
+biocache_opts = -Xmx1g -Xms1g
+
+############## Base header / footer ###############
+header_and_footer_baseurl = http://vtatlasoflife.org
+
+###### favicon #######
+skin_favicon = https://www.gbif.org/favicon-16x16.png
+
+
+
+######### Species list ##############
+
+specieslist_hostname = lists.vtatlasoflife.org
+specieslist_url = http://lists.vtatlasoflife.org
+specieslist_base_url = http://lists.vtatlasoflife.org
+specieslist_context_path = 
+specieslist_db_hostname = localhost
+specieslist_db_name = specieslists
+specieslist_db_username = specieslists
+specieslist_db_password = password
+collectory_enable_sync = false
+biocache_base_url = http://biocache.vtatlasoflife.org
+bie_service_base_url = http://bie-ws.vtatlasoflife.org
+field_guide_base_url =
+
+
+
+############# BIE index ################
+
+bie_index_base_url = http://bie-ws.vtatlasoflife.org
+bie_index_context_path = 
+bie_index_hostname = bie-ws.vtatlasoflife.org
+
+index_live_url = http://index.vtatlasoflife.org:8983/solr/bie
+index_offline_url = http://index.vtatlasoflife.org:8983/solr/bie-offline
+
+biocache_solr_url = http://index.vtatlasoflife.org:8983/solr/biocache
+collectory_url = http://collectory.vtatlasoflife.org
+
+disable_cas = false
+bypass_cas = false
+
+index_images = true
+
+############# BIE Hub ################
+
+bie_skin_layout = generic
+bie_hub = ala-bie
+bie_hub_base_url = http://bie.vtatlasoflife.org
+bie_hub_context_path = 
+bie_hub_hostname = bie.vtatlasoflife.org
+species_list_url = http://lists.vtatlasoflife.org
+lists_base_url = http://lists.vtatlasoflife.org
+sightings_url =
+alerts_url =
+alerts_base_url=
+
+spatial_url=http://spatial.vtatlasoflife.org
+spatial_base_url=http://spatial.vtatlasoflife.org
+
+bie_base_url = http://bie.vtatlasoflife.org
+ala_base_url = http://vtatlasoflife.org
+
+####### Images #######
+
+images_url = http://images.vtatlasoflife.org
+images_base_url = http://images.vtatlasoflife.org
+images_context_path = 
+images_hostname = images.vtatlasoflife.org
+images_db_password = images
+images_db_username = images
+
+
+
+####### Regions #######
+
+regions_hostname = regions.vtatlasoflife.org
+regions_base_url = http://regions.vtatlasoflife.org
+regions_context_path = 
+
+regions_map_bounds = []
+regions_map_height =
+
+spatial_base_url=http://spatial.vtatlasoflife.org
+spatial_base_url_ws=http://spatial.vtatlasoflife.org/ws
+alerts_base_url=
+geoserver_base_url=http://spatial.vtatlasoflife.org/geoserver
+
+biocache_records_url=http://biocache.vtatlasoflife.org
+biocache_service_url = http://biocache-ws.vtatlasoflife.org
+spatial_ws_hostname=spatial.vtatlasoflife.org
+
+
+##### Copied from workshop, should be in living-atlas inventory
+
+postgresql_username=postgres
+postgresql_password=postgres
+postgis_version=9.6
+pg_service=postgresql-9.6
+pg_version=9.6
+postgis_version=2.4
+# Needed for installing on Ubuntu-18.04
+# https://github.com/AtlasOfLivingAustralia/biocache-service/issues/363
+tomcat=tomcat7
+
+##### Updated components versions
+#
+# Check: https://github.com/AtlasOfLivingAustralia/documentation/wiki/Components-versioning
+#
+
+collectory_version = LATEST
+biocache_hub_version = 3.1.0
+biocache_service_version = 2.1.15
+bie_hub_version = 1.4.15
+bie_index_version=1.4.5
+biocache_cli_version = 2.4.3
+species_list_version = 3.3
+regions_version = 3.3-SNAPSHOT
+images_version = 0.9.2
+
+# workaround for: https://github.com/AtlasOfLivingAustralia/ala-install/issues/291                                                                            │······························
+namedata_datestamp=20171012
