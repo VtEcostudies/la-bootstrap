@@ -17,11 +17,13 @@ support_email=support@vtatlasoflife.org
 # You cannot put here and arbitrary string key, because needs to be of some size, etc (better autogenerate leaving this empty, and later get them from the logs, copy here, and re-run the inventory)
 #
 
-pac4j_cookie_signing_key=
-pac4j_cookie_encryption_key=
+pac4j_cookie_signing_key=1srAC3SpllCyqfoitBZzTxKgeqSqW4vQgBFCIrWaeudQL96p2txra6hmxwO1HfZM_Fh7rDE3uJEGYZ5u3hJB5w
+pac4j_cookie_encryption_key=7-WRgkjhcKUhzfwZ_SWlJlVvO1xRn3Hln0Gt0KrJhYY
 
-cas_webflow_signing_key=
-cas_webflow_encryption_key=
+#cas_webflow_signing_key=1srAC3SpllCyqfoitBZzTxKgeqSqW4vQgBFCIrWaeudQL96p2txra6hmxwO1HfZM_Fh7rDE3uJEGYZ5u3hJB5w
+#cas_webflow_encryption_key=7-WRgkjhcKUhzfwZ_SWlJlVvO1xRn3Hln0Gt0KrJhYY
+cas_webflow_signing_key=tAFV2aeYqEl_JGhfgPDp4e3UZ0N79qdBND7VSdtU8DoeH_e09rqRtgJvVsHbo7dIvLESnrnkB4mrxtxj73wCcQ
+cas_webflow_encryption_key=cVwmATnDws_QzcIydP5cRg
 
 # Set this keys/secrets with valid keys to enable it in your CAS login menu
 
@@ -50,5 +52,5 @@ cas_webflow_encryption_key=
 # This is used to create the apikey database (or to use an existing dump)
 # Comment this after first successful run and with /apikeys service running
 # so the database of apikeys is not dropped or recreated
-#
-apikey_db_dump={{ala_install_repo}}/ansible/roles/apikey/files/apikey_schema.sql
+#jtl as per vjrj instructions, comment this line
+#apikey_db_dump={{ala_install_repo}}/ansible/roles/apikey/files/apikey_schema.sql
